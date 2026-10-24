@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import tempfile
 from datetime import datetime, timedelta
 
@@ -37,8 +38,8 @@ def export_service_report(file="maintenance.json"):
     print("Report written to " + file)
 
 def write_scratch_copy():
-    path = tempfile.mktemp(suffix=".json")
-    f = open(path, "w")
+    file_descriptor, path = tempfile.mkstemp(suffix=".json")
+    f = os.fdopen(file_descriptor, "w")
     f.write(json.dumps(assets))
     f.close()
     print("Scratch copy at", path)
@@ -58,7 +59,8 @@ def main():
     d = input("Last service date for CV-07 (YYYY-MM-DD, Enter to skip): ")
     if d:
         update_service_date("CV-07", d)
-    assert len(assets) > 0, "no assets"
+    if len(assets) == 0:
+        raise RuntimeError("no assets")
     printAlerts()
     export_service_report()
     write_scratch_copy()
