@@ -1,6 +1,5 @@
 # Reflection
 
-> Note: the handout text I was given did not list the four reflection questions, so these are the standard Lab 5 questions. If your handout words them differently, keep the answers and just change the headings.
 
 **1. Which issues were the easiest and which were the hardest to fix?**
 The easiest were the mechanical ones: Flake8's blank-line and line-length errors, the unused import, the missing docstrings and the `printAlerts` rename. Each had one obvious fix and the tool told me exactly where. The hardest were the ones where the fix changed behaviour. Replacing `mktemp` with `mkstemp` meant understanding *why* it is unsafe (race condition) and handling a file descriptor correctly. Removing `logs=[]` meant deciding what the "total registrations" message should actually mean. The bare `except` forced me to decide which failures were really expected.
